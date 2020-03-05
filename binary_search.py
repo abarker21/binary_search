@@ -62,7 +62,67 @@ def count_repeats(xs, x):
     >>> count_repeats([3, 2, 1], 4)
     0
     '''
+    
+    first = first_occ(xs,x)
+    last = last_occ(xs,x)
+    if last==None or first==None:
+        return 0
+    else:
+        if first!=last:
+            return last-first
+        else:
+            return last-first+1
+    return last-first if first!=last else last-first+1
 
+def first_occ(xs,x):
+    length = len(xs)
+    middle = length//2
+    if length == 0:
+        return None
+    elif length == 1 and xs[0]==x: 
+        return 0
+    elif xs[middle] == x:
+        if xs[middle-1] != x:
+            return middle
+        else:
+            return first_occ(xs[:middle],x)
+    elif xs[middle] > x:
+        funct = first_occ(xs[middle+1:],x)
+        if funct == None:
+            return None
+        else:
+            return funct+middle+1
+    else:
+        return first_occ(xs[:middle],x)
+    
+def last_occ(xs,x):
+    length = len(xs)
+    middle = length//2
+    if length==0: 
+        return 0
+    elif length == 1 and xs[0]==x: 
+        return 1
+    elif xs[middle] == x:
+        if middle == length-1:
+            return middle
+        elif xs[middle+1] != x:
+            return middle
+        else:
+            funct = last_occ(xs[middle+1:],x)
+            if funct == None:
+                return None
+            else:
+                return funct+middle+1
+    elif xs[middle] > x:
+        funct = last_occ(xs[middle+1:],x)
+        if funct == None:
+            return None
+        else:
+            return funct+middle+1
+    else:
+        return last_occ(xs[:middle],x)
+    
+    
 
 def argmin(f, lo, hi, epsilon=1e-3):
     '''
