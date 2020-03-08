@@ -144,4 +144,20 @@ def argmin(f, lo, hi, epsilon=1e-3):
     >>> argmin(lambda x: (x-5)**2, -20, 0)
     -0.00016935087808430278
     '''
+    m1 = (hi - lo)/3 + lo
+    m2 = hi - ((hi - lo)/3)
+    functlo = f(lo)
+    functm1 = f(m1)
+    functm2 = f(m2)
+    functhi = f(hi)
+    bottom = min(functlo, functm1, functm2, functhi)
+    if hi-lo < epsilon:
+        if functhi == min(functlo, functhi):
+            return hi
+        if functlo == min(functlo, functhi):
+            return lo
+    if functlo == bottom or functm1 == bottom:
+        return argmin(f, lo, m2, epsilon = epsilon)
+    else:
+        return argmin(f, m1, hi, epsilon = epsilon)
 
